@@ -125,7 +125,7 @@
             </select>
 
         <h3><strong>Question 10</strong></h3>
-        <h4>You feel that online dating is like standing in a butcher shop waying the difference between the veal and the beef</h4>
+        <h4>You feel that online dating is like standing in a butcher shop weighing the difference between the veal and the beef</h4>
             <select data-placeholder = "" class = "chosen-select" id = "q10">
                 <option value = ""></option>
                 <option value = "1">1 (Strongly Agree)</option>
@@ -144,47 +144,50 @@
         <hr>
     </div>
     
-    <script type="text/javascript">
-        $("#submit").on("click", function() {
-            console.log("submitted")
-            function validateForm () {
-                var isValid = true;
-                $("form-control").each(function(){
-                    if ($(this).val === "") {
-                        isValid = false;
-                    }
-                });
-                
-                $("chosen-select").each(function(){
-                    if ($(this).val === "") {
-                        isValid = false;
-                    }
-                })
-                return isValid;
-            }
-    
-            if (validateForm) {
-                name   : $("#name").val();
-                photo  : $("#photo").val();
-                scores : [
-                    $("#q1").val(),
-                    $("#q2").val(),
-                    $("#q3").val(),
-                    $("#q4").val(),
-                    $("#q5").val(),
-                    $("#q6").val(),
-                    $("#q7").val(),
-                    $("#q8").val(),
-                    $("#q9").val(),
-                    $("#q10").val(),
-                ]
-            };
-            var currentUrl = window.location.origin;
-            $.post(currentUrl + "/api/friends", userData, function(data) {
-                alert("working")
-            })
-        })
-    </script>
+        <script type="text/javascript">
+            $("#submit").on("click", function() {
+                console.log("submitted")
+                function validateForm () {
+                    var isValid = true;
+                    $("form-control").each(function(){
+                        if ($(this).val === "") {
+                            isValid = false;
+                        }
+                    });
+                    
+                    $("chosen-select").each(function(){
+                        if ($(this).val === "") {
+                            isValid = false;
+                        }
+                    })
+                    return isValid;
+                }
+        
+                if (validateForm) {
+                    var userData = {
+                    name   : $("#name").val(),
+                    photo  : $("#photo").val(),
+                    scores : [
+                        $("#q1").val(),
+                        $("#q2").val(),
+                        $("#q3").val(),
+                        $("#q4").val(),
+                        $("#q5").val(),
+                        $("#q6").val(),
+                        $("#q7").val(),
+                        $("#q8").val(),
+                        $("#q9").val(),
+                        $("#q10").val(),
+                        ]
+                    };
+                    var currentUrl = window.location.origin;
+                    $.post(currentUrl + "/api/friends", userData, function(data) {
+                        console.log(userData)
+                        alert("working")
+                    })
+                }
+            });
+        </script>
 
     <footer class = "footer">
         <div class = "container">
