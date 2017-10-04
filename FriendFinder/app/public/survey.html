@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Survey</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>
@@ -144,56 +145,78 @@
         <hr>
     </div>
     
-        <script type="text/javascript">
-            $("#submit").on("click", function() {
-                console.log("submitted")
-                function validateForm () {
-                    var isValid = true;
-                    $("form-control").each(function(){
-                        if ($(this).val === "") {
-                            isValid = false;
-                        }
-                    });
-                    
-                    $("chosen-select").each(function(){
-                        if ($(this).val === "") {
-                            isValid = false;
-                        }
-                    })
-                    return isValid;
-                }
-        
-                if (validateForm) {
-                    var userData = {
-                    name   : $("#name").val(),
-                    photo  : $("#photo").val(),
-                    scores : [
-                        $("#q1").val(),
-                        $("#q2").val(),
-                        $("#q3").val(),
-                        $("#q4").val(),
-                        $("#q5").val(),
-                        $("#q6").val(),
-                        $("#q7").val(),
-                        $("#q8").val(),
-                        $("#q9").val(),
-                        $("#q10").val(),
-                        ]
-                    };
-                    var currentUrl = window.location.origin;
-                    $.post(currentUrl + "/api/friends", userData, function(data) {
-                        console.log(userData)
-                        alert("working")
-                    })
-                }
-            });
-        </script>
+
 
     <footer class = "footer">
         <div class = "container">
             <p><a href = "/api/friends">API Friends List</a> | <a href = "#">GitHub Repo</a></p>
         </div>
-    </footer>   
+    </footer>
+    
+    <div id = "resultsModal" class = "modal fade" role = "dialog">
+        <div class = "modal-dialog">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <button type = "button" class = "close" data-dismiss = "modal">&times;</button>
+                    <h2 class = "modal-title"><strong>Best Match</strong></h2>
+                </div>
+                <div class = "modal-body">
+                    <h2 id = "matchName"></h2>
+                    <img class = "img-responsive" id = "matching" src = "" alt = "">
+                </div>
+                <div class = "modal-footer">
+                    <button type = "button" class = "btn btn-default" data-dismiss = "modal">Close</button>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("#submit").on("click", function() {
+            console.log("submitted")
+            function validateForm () {
+                var isValid = true;
+                $("form-control").each(function(){
+                    if ($(this).val === "") {
+                        isValid = false;
+                    }
+                });
+                
+                $("chosen-select").each(function(){
+                    if ($(this).val === "") {
+                        isValid = false;
+                    }
+                })
+                return isValid;
+            }
+    
+            if (validateForm) {
+                var userData = {
+                name   : $("#name").val(),
+                photo  : $("#photo").val(),
+                scores : [
+                    $("#q1").val(),
+                    $("#q2").val(),
+                    $("#q3").val(),
+                    $("#q4").val(),
+                    $("#q5").val(),
+                    $("#q6").val(),
+                    $("#q7").val(),
+                    $("#q8").val(),
+                    $("#q9").val(),
+                    $("#q10").val(),
+                    ]
+                };
+                var currentUrl = window.location.origin;
+                $.post(currentUrl + "/api/friends", userData, function(data) {
+                    console.log(data)
+                    $("#matchName").text(data.name);
+                    $("#matching").attr("src", data.pic)
+                    $("#resultsModal").modal("toggle");
+                })
+            }
+        });
+    </script>
 </body>
 
 </html>
